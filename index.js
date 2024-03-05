@@ -2,6 +2,12 @@ import express from "express";
 import session from "express-session";
 import bodyParser from "body-parser";
 import multer from "multer";
+import multerS3 from "multer-s3";
+import { S3Client, S3 } from "@aws-sdk/client-s3";
+import { ListObjectsCommand } from "@aws-sdk/client-s3";
+import dotenv from "dotenv";
+import fs from "fs";
+dotenv.config();
 import {
   allPosts,
   newPost,
@@ -18,54 +24,52 @@ import {
   updateUserCustomizations,
 } from "./app/users.js";
 import path from "path";
-import fs from "fs";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
 const __dirname = dirname(fileURLToPath(import.meta.url));
-
-const postImagesDir = "./public/uploads/post-images";
-if (!fs.existsSync(postImagesDir)) {
-  fs.mkdirSync(postImagesDir, { recursive: true });
-}
-
-const avatarImagesDir = "./public/uploads/avatars";
-if (!fs.existsSync(avatarImagesDir)) {
-  fs.mkdirSync(avatarImagesDir, { recursive: true });
-}
 
 let usersData = [];
 let currentUserData = {};
 let testUser = { email: "cat@becatblog.cat", password: "cat", username: "Cat" };
 
-const postStorage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, path.join(__dirname, "public/uploads/post-images"));
-  },
-  filename: function (req, file, cb) {
-    cb(
-      null,
-      currentUserData.username + Date.now() + path.extname(file.originalname)
-    ); // Appending extension
-  },
-});
-const uploadPost = multer({ storage: postStorage });
-
-const avatarStorage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, path.join(__dirname, "public/uploads/avatars"));
-  },
-  filename: function (req, file, cb) {
-    cb(
-      null,
-      currentUserData.username + Date.now() + path.extname(file.originalname)
-    ); // Appending extension
+const s3Client = new S3Client({
+  region: "eu-central-1",
+  credentials: {
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
   },
 });
 
-const uploadAvatar = multer({ storage: avatarStorage });
+const s3 = new S3(s3Client);
+
+const uploadPost = multer({
+  storage: multerS3({
+    s3: s3,
+    bucket: process.env.AWS_BUCKET_NAME,
+    key: function (req, file, cb) {
+      cb(
+        null,
+        currentUserData.username + Date.now() + path.extname(file.originalname)
+      );
+    },
+  }),
+});
+
+const uploadAvatar = multer({
+  storage: multerS3({
+    s3: s3,
+    bucket: process.env.AWS_BUCKET_NAME,
+    key: function (req, file, cb) {
+      cb(
+        null,
+        currentUserData.username + Date.now() + path.extname(file.originalname)
+      );
+    },
+  }),
+});
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT;
 
 // 404 middleware
 
@@ -375,6 +379,7 @@ app.use((req, res, next) => {
     .type("html")
     .sendFile(__dirname + "/public/pages/404.html");
 });
+listBucketContents();
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
@@ -395,4 +400,14 @@ function isTestUser() {
     return true;
   }
   return false;
+}
+
+async function listBucketContents() {
+  try {
+    const command = new ListObjectsCommand({ Bucket: process.env.AWS_BUCKET_NAME });
+    const response = await s3Client.send(command);
+    console.log(response);
+  } catch (error) {
+    console.error(error);
+  }
 }

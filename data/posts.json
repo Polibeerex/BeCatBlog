@@ -1,1 +1,11 @@
-[]
+[
+  {
+    "id": 1,
+    "title": "test",
+    "content": "test",
+    "username": "Cat",
+    "date": "2024-03-05T04:41:53.747Z",
+    "image": "post-image-default.jpg",
+    "userAvatar": "Cat.jpg"
+  }
+]
