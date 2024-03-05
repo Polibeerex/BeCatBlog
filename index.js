@@ -65,7 +65,7 @@ const avatarStorage = multer.diskStorage({
 const uploadAvatar = multer({ storage: avatarStorage });
 
 const app = express();
-const port = process.env.PORT;
+const port = process.env.PORT || 3000;
 
 // 404 middleware
 
@@ -117,6 +117,8 @@ app.post("/login", (req, res) => {
     console.log("Email and password are required");
   } else {
     try {
+      console.log(email, password);
+      console.log(usersData);
       const user = usersData.find(
         (user) => user.email === email && user.password === password
       );
