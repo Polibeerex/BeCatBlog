@@ -1,0 +1,79 @@
+<!--
+    settings.ejs
+    This is the settings page of the application.
+    Setting sections: my profile, security, region, customization.
+-->
+<%- include("partials/header.ejs") %>
+
+<%- include("partials/menu.ejs", {username: username, avatar: avatar}) %>
+
+<section class="settings-container">
+  <div class="settings-section">
+    <h2 class="settings-section-title">My Profile</h2>
+    <form class="settings-form" id="profile-form" class="profile-form" action="/settings/profile" method="post" enctype="multipart/form-data">
+      <div class="settings-form-container">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" value="<%= username %>" required />
+      </div>
+      <div class="settings-form-container">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" value="<%= email %>" required />
+      </div>
+      <div class="settings-form-container">
+        <label for="avatar">Avatar</label>
+        <input type="file" id="avatar" name="avatar" />
+      </div>
+      <button type="submit" class="submit-button">Save</button>
+    </form>
+  </div>
+  <div class="settings-section">
+    <h2 class="settings-section-title">Security</h2>
+    <form class="settings-form" id="security-form" class="security-form" action="/settings/security" method="post">
+      <div class="settings-form-container">
+        <label for="current-password">Current Password</label>
+        <input type="password" id="current-password" name="current-password" required />
+      </div>
+      <div class="settings-form-container">
+        <label for="new-password">New Password</label>
+        <input type="password" id="new-password" name="new-password" required />
+      </div>
+      <div class="settings-form-container">
+        <label for="confirm-password">Confirm Password</label>
+        <input type="password" id="confirm-password" name="confirm-password" required />
+      </div>
+      <button type="submit" class="submit-button">Save</button>
+    </form>
+  </div>
+  <div class="settings-section">
+    <h2 class="settings-section-title">Region</h2>
+    <form class="settings-form" id="region-form" class="region-form" action="/settings/region" method="post">
+      <div class="settings-form-container">
+        <label for="timezone">Timezone</label>
+        <select id="timezone" name="timezone">
+          <option value="GMT">Server</option>
+        </select>
+      </div>
+      <button type="submit" class="submit-button">Save</button>
+    </form>
+  </div>
+  <div class="settings-section">
+    <h2 class="settings-section-title">Customization</h2>
+    <form class="settings-form" id="customization-form" class="customization-form" action="/settings/customization" method="post">
+      <div class="settings-form-container">
+        <label for="theme">Theme</label>
+        <select id="theme" name="theme">
+          <option value="light">Default</option>
+        </select>
+      </div>
+      <div class="settings-form-container">
+        <label for="language">Language</label>
+        <select id="language" name="language">
+          <option value="english">English</option>
+        </select>
+      </div>
+      <button type="submit" class="submit-button">Save</button>
+    </form>
+  </div>
+</section>
+
+<%- include("partials/footer.ejs") %>

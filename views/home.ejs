@@ -1,0 +1,59 @@
+<!--
+  home.ejs
+  This is the home page of the application. 
+  It is the main page of the application and contains user's posts.
+  User will see this page after logging in.
+-->
+
+<%- include("partials/header.ejs") %>
+
+
+<%- include("partials/menu.ejs", {username: username, avatar: avatar}) %>
+<section class="home-page">
+  <% if (locals.posts) { %>
+  <div class="post-container">
+    <% posts.forEach(post => { %>
+    <div class="post">
+      <img class="post-image" src=<%= post.image === "post-image-default.jpg" 
+      ? "images/" + post.image : "uploads/post-images/" + post.image %> alt="post image" />
+      <!-- Display the username, title, content and date of posts -->
+      <div class="post-content">
+        <div class="post-buttons">
+          <% if (post.username === username) { %>
+          <a href="/edit/<%= post.id %>">
+            <img class="post-edit" src="/icons/edit.svg" alt="edit post" />
+          </a>
+          <a href="/delete/<%= post.id %>">
+            <img class="post-delete" src="/icons/delete.svg" alt="delete post" />
+          </a>
+          <% } %>
+          <div class="report-container">
+            <img class="report-icon" src="/icons/report.svg" alt="report post" />
+            <form class="report-form" id="report-<%= post.id %>" action="/report/<%= post.id %>" method="post">
+              <textarea name="report" placeholder="Reason for complaint..."></textarea>
+              <button type="submit" class="report-button">Report</button>
+            </form>
+          </div>
+        </div>
+        <p class="post-title"><%= post.title %></p>
+        <div class="post-author-container">
+          <% if (post.userAvatar != "profie-photo-default.svg") { %>
+          <img class="post-avatar" src=<%= "uploads/avatars/" + post.userAvatar %> alt="avatar" />
+          <% } else { %>
+          <img class="post-avatar" src="images/profile-photo-default.svg" alt="default avatar" />
+          <% } %>
+          <p class="post-username">Posted by <span class="author-username">
+              <%= post.username %></span></p>
+        </div>
+        <p class="post-date"><%= post.date %></p>
+        <p class="post-text expandable"><%= post.content %></p>
+        <button class="expand-button hidden">Read more</button>
+      </div>
+    </div>
+    <% })} else {%>
+  </div>
+  <p>No posts yet!</p>
+  <% } %>
+</section>
+
+<%- include("partials/footer.ejs") %>

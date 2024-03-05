@@ -1,0 +1,11 @@
+[
+  {
+    "email": "cat@becatblog.cat",
+    "password": "cat",
+    "username": "Cat",
+    "avatar": "Cat.jpg",
+    "timezone": "UTC",
+    "language": "en",
+    "theme": "default"
+  }
+]

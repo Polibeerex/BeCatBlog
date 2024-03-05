@@ -1,0 +1,31 @@
+.background-animation {
+  position: fixed; /* This will make the background fixed while the body content can be scrolled */
+  width: 100%;
+  height: 100%;
+  overflow: hidden; /* This will hide the overflow */
+  z-index: -1; /* This will keep the background behind the content */
+}
+
+.background-animation-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  opacity: 0.2;
+}
+
+.icon {
+  position: absolute;
+  animation: float 10s infinite ease-in-out;
+}
+
+@keyframes float {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(100px, 100px, 100px);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}

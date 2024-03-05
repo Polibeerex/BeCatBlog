@@ -1,0 +1,30 @@
+<!--
+    menu.ejs
+    This file is partial for the sidebar menu. 
+    It contains links to the home page, post page and settings page.
+-->
+<button class="menu-toggle">Menu</button>
+<section class="menu-container">
+  <div class="menu-header">
+    <img class="profile-photo" src="/uploads/avatars/<%= avatar %>" alt="profile photo" />
+    <p class="profile-username"><%= username %></p>
+  </div>
+
+  <div class="menu-nav">
+    <a class="menu-button" href="/">
+      <h3>Home</h3>
+    </a>
+    <a class="menu-button" href="/post">
+      <h3>New Post</h3>
+    </a>
+    <a class="menu-button" href="/settings">
+      <h3>Settings</h3>
+    </a>
+
+  </div>
+  <div class="menu-footer">
+    <a class="logout-button" href="/logout">Logout</a>
+    <a class="ugc-policy" href="/policy">User Generated Content Policy</a>
+    <p class="license">This project is licensed under the <a href="https://opensource.org/licenses/MIT">MIT License</a></p>
+  </div>
+</section>
