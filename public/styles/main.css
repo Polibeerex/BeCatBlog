@@ -707,6 +707,20 @@ form.report-form textarea {
   margin-top: 1em;
 }
 
+.register-agreement {
+  color: var(--text-color-dark);
+  font-size: 0.9rem;
+  margin-top: 1em;
+  max-width: 20em;
+}
+
+.register-disclaimer {
+  color: var(--text-color-dark);
+  font-size: 0.9rem;
+  margin-top: 1em;
+  max-width: 20em;
+}
+
 footer {
   position: fixed;
   display: flex;
