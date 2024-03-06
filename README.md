@@ -56,7 +56,7 @@ To get started with BeCatBlog, follow these steps:
 - `/delete/:id`: Endpoint for deleting blog posts.
 - `/report/:id`: Endpoint for reporting inappropriate posts.
 - `/settings`: User settings page for profile customization.
-- `/policy`: Privacy policy page.
+- `/policy`: UGC policy page.
 
 ## License
 
