@@ -42,7 +42,7 @@ To get started with BeCatBlog, follow these steps:
     - **post-images/**: Directory for storing post images.
   - **pages/**
     - **404.html**: Custom 404 error page.
-    - **policy.html**: Page for displaying privacy policy.
+    - **policy.html**: Page for displaying UGC policy.
 - **views/**: Contains EJS templates for rendering HTML pages.
 
 ## Usage
